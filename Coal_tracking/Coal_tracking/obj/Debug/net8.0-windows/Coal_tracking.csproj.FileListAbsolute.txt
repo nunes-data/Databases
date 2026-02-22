@@ -1,0 +1,16 @@
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\bin\Debug\net8.0-windows\Coal_tracking.exe
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\bin\Debug\net8.0-windows\Coal_tracking.deps.json
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\bin\Debug\net8.0-windows\Coal_tracking.runtimeconfig.json
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\bin\Debug\net8.0-windows\Coal_tracking.dll
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\bin\Debug\net8.0-windows\Coal_tracking.pdb
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\obj\Debug\net8.0-windows\Coal_tracking.Form1.resources
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\obj\Debug\net8.0-windows\Coal_tracking.csproj.GenerateResource.cache
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\obj\Debug\net8.0-windows\Coal_tracking.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\obj\Debug\net8.0-windows\Coal_tracking.AssemblyInfoInputs.cache
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\obj\Debug\net8.0-windows\Coal_tracking.AssemblyInfo.cs
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\obj\Debug\net8.0-windows\Coal_tracking.csproj.CoreCompileInputs.cache
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\obj\Debug\net8.0-windows\Coal_tracking.dll
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\obj\Debug\net8.0-windows\refint\Coal_tracking.dll
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\obj\Debug\net8.0-windows\Coal_tracking.pdb
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\obj\Debug\net8.0-windows\Coal_tracking.genruntimeconfig.cache
+C:\Users\jocan\OneDrive\Ambiente de Trabalho\BD\Projeto\Coal_tracking\Coal_tracking\obj\Debug\net8.0-windows\ref\Coal_tracking.dll
