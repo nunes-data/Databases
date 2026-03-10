@@ -1,14 +1,14 @@
 use coal_tracking;
 
 insert into empresa(codigo, nome, telefone, localizacao)
-values (1, 'Carla Sofia', 913489320, 'Santana do Mato');
+values (1, 'Carla', 900000000, 'Santana');
 
 insert into pessoa(nif, nome, telefone, email, fk2_codigo_empresa)
-values (264439430, 'JosÈ Nunes', 915562981, 'livre@gmail.com', 1),
-(12345, 'Cliente1', 999999999, 'chega@gmail.com', 1);
+values (265999000, 'Jos√©', 915623181, 'li@gmail.com', 1),
+(12345, 'Cliente1', 999999999, 'cah@gmail.com', 1);
 
 insert into empregado (nif_empregado, remuneracao, horas_trabalho)
-values (264439430, 1000, 176);
+values (265999000, 1000, 176);
 
 insert into cliente(nif_cliente, codigo_empresa_cliente)
 values (12345, 1);
@@ -41,11 +41,11 @@ insert into seguro (apolice, data_sub, data_vencimento, valor, nif_emp2)
 values (456, '09/11/2001', '04/26/2025', 30, 1234567);
 
 insert into contrato (id_contrato, designacao, data_inicial, data_resc, nif_empreg)
-values (1, 'Full Time', '08/08/2016', '08/08/2030', 264439430);
+values (1, 'Full Time', '08/08/2016', '08/08/2030', 265999000);
 
 
 insert into remuneracao (nif_empregado_remun, data_remuneracao, valor_pago, horas_pagas)
-values (264439430, '08/01/2020', 1000, 176), (264439430, '09/01/2020', 1000, 176), (264439430, '10/01/2020', 1000, 176);
+values (265999000, '08/01/2020', 1000, 176), (265999000, '09/01/2020', 1000, 176), (265999000, '10/01/2020', 1000, 176);
 
 insert into forno(num_serie, capacidade_max, fk1_codigo_empresa)
 values	(1, 10000, 1),
@@ -77,8 +77,8 @@ values	(1, 'azinho'),
 		(3, 'sobro');
 
 insert into armazem(codigo, capacidade_max, localizacao, designacao, codigo_empresa)
-values(1, 15000, 'Santana do Mato', 'ArmazÈm de Carv„o', 1),
-	  (2, 100000, 'CortiÁadas de Lavre', 'ArmazÈm de Recursos', 1);
+values(1, 15000, 'Santana do Mato', 'Armaz√©m de Carv√£o', 1),
+	  (2, 100000, 'Corti√ßadas de Lavre', 'Armaz√©m de Recursos', 1);
 
 insert into armazem_carvao(codigo_armz_carvao, quantidade_carvao)
 values(1, 0);
@@ -116,9 +116,9 @@ insert into fornada(codigo, data_inicio, data_fim, quantidade_lenha, quantidade_
 values	(1,'05/06/2025','12/06/2025',10,2,5,1,1);
 
 insert carvao(codigo_tipo, designacao, stock)
-values	(1, 'Carv„o de Azinho', 2000),
-		(2, 'Carv„o de Eucalipto', 500),
-		(3, 'Carv„o de Sobro', 5000);
+values	(1, 'Carv√£o de Azinho', 2000),
+		(2, 'Carv√£o de Eucalipto', 500),
+		(3, 'Carv√£o de Sobro', 5000);
 
 insert produto_final(codigo_tipo_carv, codigo_emb_produto, referencia_encom, preco_unidade, quantidade, preco)
 values	(1, 2, 1, 11, 10, 110);
