@@ -14,7 +14,7 @@ BEGIN
         FROM inserted i
         JOIN lenha l ON i.codigo_lenha_forn = l.codigo_lenha
         WHERE i.quantidade_lenha > (
-            -- Stock total disponÌvel para o mesmo tipo de lenha (ambos estados)
+            -- Stock total dispon√≠vel para o mesmo tipo de lenha (ambos estados)
             SELECT ISNULL(SUM(l2.stock_lenha), 0)
             FROM lenha l2
             WHERE l2.codigo_tipo = l.codigo_tipo
@@ -26,7 +26,7 @@ BEGIN
         -- Construir mensagem de erro detalhada
         SELECT @errorMessage = @errorMessage + 
                'Stock total insuficiente para tipo de lenha ' + CAST(l.codigo_tipo AS VARCHAR) + 
-               '. Stock total disponÌvel: ' + CAST(
+               '. Stock total dispon√≠vel: ' + CAST(
                    (SELECT ISNULL(SUM(l2.stock_lenha), 0)
                     FROM lenha l2
                     WHERE l2.codigo_tipo = l.codigo_tipo)
@@ -60,7 +60,7 @@ BEGIN
             codigo_lenha_forn, num_serie_forno, codigo_arm
         FROM inserted;
         
-        -- Atualizar os stocks de lenha com lÛgica de fallback
+        -- Atualizar os stocks de lenha com l√≥gica de fallback
         DECLARE @codigo_lenha INT, @quantidade_necessaria FLOAT;
         
         DECLARE stock_cursor CURSOR FOR
@@ -81,7 +81,7 @@ BEGIN
             FROM lenha 
             WHERE codigo_lenha = @codigo_lenha;
             
-            -- Primeiro, tentar descontar do estado especÌfico requisitado
+            -- Primeiro, tentar descontar do estado espec√≠fico requisitado
             DECLARE @stock_disponivel FLOAT;
             SELECT @stock_disponivel = stock_lenha
             FROM lenha
@@ -89,7 +89,7 @@ BEGIN
             
             IF @stock_disponivel >= @quantidade_restante
             BEGIN
-                -- Stock suficiente no estado especÌfico
+                -- Stock suficiente no estado espec√≠fico
                 UPDATE lenha
                 SET stock_lenha = stock_lenha - @quantidade_restante
                 WHERE codigo_lenha = @codigo_lenha;
@@ -98,7 +98,7 @@ BEGIN
             END
             ELSE
             BEGIN
-                -- Stock insuficiente no estado especÌfico, usar o que tem
+                -- Stock insuficiente no estado espec√≠fico, usar o que tem
                 UPDATE lenha
                 SET stock_lenha = 0
                 WHERE codigo_lenha = @codigo_lenha;
@@ -130,7 +130,7 @@ BEGIN
                     END
                     ELSE
                     BEGIN
-                        -- Usar todo o stock alternativo disponÌvel
+                        -- Usar todo o stock alternativo dispon√≠vel
                         UPDATE lenha
                         SET stock_lenha = 0
                         WHERE codigo_lenha = @codigo_lenha_alternativo;
@@ -158,7 +158,7 @@ BEGIN
         END
             
         DECLARE @errMsg NVARCHAR(4000) = ERROR_MESSAGE();
-        RAISERROR('Erro durante a inserÁ„o da fornada: %s', 16, 1, @errMsg);
+        RAISERROR('Erro durante a inser√ß√£o da fornada: %s', 16, 1, @errMsg);
     END CATCH;
 END;
 GO
@@ -204,7 +204,7 @@ BEGIN
             WHERE i.quantidade_carvao IS NOT NULL
               AND i.quantidade_carvao > 0;
             
-            -- Verificar se existe tipo de carv„o correspondente
+            -- Verificar se existe tipo de carv√£o correspondente
             IF EXISTS (
                 SELECT 1 
                 FROM inserted i
@@ -217,7 +217,7 @@ BEGIN
             BEGIN
                 SET @hasError = 1;
                 SELECT @errorMessage = @errorMessage + 
-                       'Tipo de carv„o n„o encontrado para lenha tipo ' + CAST(l.codigo_tipo AS VARCHAR) + CHAR(13) + CHAR(10)
+                       'Tipo de carv√£o n√£o encontrado para lenha tipo ' + CAST(l.codigo_tipo AS VARCHAR) + CHAR(13) + CHAR(10)
                 FROM inserted i
                 JOIN lenha l ON l.codigo_lenha = i.codigo_lenha_forn
                 LEFT JOIN carvao c ON c.codigo_tipo = l.codigo_tipo
@@ -225,13 +225,13 @@ BEGIN
                   AND i.quantidade_carvao > 0
                   AND c.codigo_tipo IS NULL;
                 
-                RAISERROR('Erro ao atualizar stock de carv„o: %s', 16, 1, @errorMessage);
+                RAISERROR('Erro ao atualizar stock de carv√£o: %s', 16, 1, @errorMessage);
                 ROLLBACK TRANSACTION;
                 RETURN;
             END;
             
             -- Atualizar quantidade_carvao no armazem_carvao com a soma total dos stocks
-            -- Primeiro, obter os armazÈns afetados
+            -- Primeiro, obter os armaz√©ns afetados
             DECLARE @codigo_arm INT;
             DECLARE arm_cursor CURSOR FOR
             SELECT DISTINCT i.codigo_arm
@@ -244,7 +244,7 @@ BEGIN
             
             WHILE @@FETCH_STATUS = 0
             BEGIN
-                -- Atualizar apenas este armazÈm especÌfico
+                -- Atualizar apenas este armaz√©m espec√≠fico
                 UPDATE armazem_carvao
                 SET quantidade_carvao = (
                     SELECT ISNULL(SUM(c.stock), 0)
@@ -267,7 +267,7 @@ BEGIN
             ROLLBACK TRANSACTION;
             
         DECLARE @errMsg NVARCHAR(4000) = ERROR_MESSAGE();
-        RAISERROR('Erro durante a atualizaÁ„o do stock de carv„o: %s', 16, 1, @errMsg);
+        RAISERROR('Erro durante a atualiza√ß√£o do stock de carv√£o: %s', 16, 1, @errMsg);
     END CATCH;
 END;
 GO
@@ -311,7 +311,7 @@ BEGIN
         total_needed FLOAT
     );
     
-    -- Calculate required carv„o for all inserted rows
+    -- Calculate required carv√£o for all inserted rows
     INSERT INTO @RequiredStock
     SELECT 
         i.codigo_tipo_carv,
@@ -326,7 +326,7 @@ BEGIN
     JOIN capacidade_emb ce ON e.codigo_capacidade = ce.codigo
     GROUP BY i.codigo_tipo_carv;
     
-    -- Check if any carv„o type has insufficient stock
+    -- Check if any carv√£o type has insufficient stock
     IF EXISTS (
         SELECT 1
         FROM @RequiredStock rs
@@ -334,7 +334,7 @@ BEGIN
         WHERE c.stock < rs.total_needed
     )
     BEGIN
-        RAISERROR('Necessita de produzir mais carv„o. Carv„o insuficiente para realizar a encomenda', 16, 1);
+        RAISERROR('Necessita de produzir mais carv√£o. Carv√£o insuficiente para realizar a encomenda', 16, 1);
         RETURN;
     END
     
@@ -356,7 +356,7 @@ BEGIN
         preco
     FROM inserted;
     
-    -- Update all carv„o stocks
+    -- Update all carv√£o stocks
     UPDATE c
     SET stock = c.stock - rs.total_needed
     FROM carvao c
@@ -437,8 +437,8 @@ BEGIN
     JOIN embalagem e ON i.codigo_emb_produto = e.codigo_emb
     JOIN capacidade_emb ce ON e.codigo_capacidade = ce.codigo;
     
-    -- Calculate stock changes for each carv„o type
-    -- For carv„o types that were changed FROM (return stock)
+    -- Calculate stock changes for each carv√£o type
+    -- For carv√£o types that were changed FROM (return stock)
     INSERT INTO @StockChanges
     SELECT 
         ov.codigo_tipo_carv,
@@ -447,7 +447,7 @@ BEGIN
     LEFT JOIN @NewValues nv ON ov.codigo_tipo_carv = nv.codigo_tipo_carv
     WHERE nv.codigo_tipo_carv IS NULL OR ov.codigo_tipo_carv <> nv.codigo_tipo_carv;
     
-    -- For carv„o types that were changed TO (check availability and deduct)
+    -- For carv√£o types that were changed TO (check availability and deduct)
     INSERT INTO @StockChanges
     SELECT 
         nv.codigo_tipo_carv,
@@ -456,7 +456,7 @@ BEGIN
     LEFT JOIN @OldValues ov ON nv.codigo_tipo_carv = ov.codigo_tipo_carv
     WHERE ov.codigo_tipo_carv IS NULL OR nv.codigo_tipo_carv <> ov.codigo_tipo_carv;
     
-    -- For carv„o types that stayed the same but quantity/capacity changed
+    -- For carv√£o types that stayed the same but quantity/capacity changed
     INSERT INTO @StockChanges
     SELECT 
         nv.codigo_tipo_carv,
@@ -465,7 +465,7 @@ BEGIN
     JOIN @OldValues ov ON nv.codigo_tipo_carv = ov.codigo_tipo_carv
     WHERE nv.codigo_tipo_carv = ov.codigo_tipo_carv;
     
-    -- Check if any carv„o type would have insufficient stock after changes
+    -- Check if any carv√£o type would have insufficient stock after changes
     IF EXISTS (
         SELECT 1
         FROM @StockChanges sc
@@ -474,7 +474,7 @@ BEGIN
         HAVING c.stock < SUM(-sc.stock_change)
     )
     BEGIN
-        RAISERROR('OperaÁ„o n„o permitida. Carv„o insuficiente para atualizar a encomenda', 16, 1);
+        RAISERROR('Opera√ß√£o n√£o permitida. Carv√£o insuficiente para atualizar a encomenda', 16, 1);
         RETURN;
     END
     
@@ -492,7 +492,7 @@ BEGIN
                     AND pf.codigo_emb_produto = i.codigo_emb_produto
                     AND pf.referencia_encom = i.referencia_encom;
     
-    -- Update carv„o stocks
+    -- Update carv√£o stocks
     UPDATE c
     SET c.stock = c.stock + sc.stock_change
     FROM carvao c
@@ -500,79 +500,11 @@ BEGIN
 END;
 GO
 
---TODO: A PARTIR DAQUI N√O SABEMOS SE FUNCIONA!!!!
-
-/*
-CREATE TRIGGER trg_preservar_remuneracao
-ON empregado
-INSTEAD OF DELETE
-AS
-BEGIN
-    -- Verifica se a tabela existe; se n„o, cria-a
-    IF NOT EXISTS (
-        SELECT * FROM INFORMATION_SCHEMA.TABLES 
-        WHERE TABLE_NAME = 'remuneracoes_empregados_despedidos' AND TABLE_SCHEMA = 'dbo'
-    )
-    BEGIN
-        EXEC('
-            CREATE TABLE remuneracoes_empregados_despedidos (
-                data_remuneracao DATE NOT NULL,
-                nif_empregado_remun INT NOT NULL,
-                valor_pago FLOAT NOT NULL,
-                horas_pagas FLOAT NOT NULL
-            )
-        ');
-    END;
-
-    -- Insere os dados na tabela de histÛrico
-    INSERT INTO remuneracoes_empregados_despedidos (data_remuneracao, nif_empregado_remun, valor_pago, horas_pagas)
-    SELECT data_remuneracao, nif_empregado_remun, valor_pago, horas_pagas
-    FROM remuneracao
-    WHERE nif_empregado_remun IN (SELECT nif_empregado FROM deleted);
-
-    -- Elimina as remuneraÁıes e o empregado
-    DELETE FROM remuneracao
-    WHERE nif_empregado_remun IN (SELECT nif_empregado FROM deleted);
-
-    DELETE FROM empregado
-    WHERE nif_empregado IN (SELECT nif_empregado FROM deleted);
-END;
-
-
-CREATE TRIGGER trg_preservar_fornadas_fornos
-ON forno
-INSTEAD OF DELETE
-AS
-BEGIN
-    IF NOT EXISTS (
-        SELECT * FROM INFORMATION_SCHEMA.TABLES 
-        WHERE TABLE_NAME = 'fornadas_forno_removido' AND TABLE_SCHEMA = 'dbo'
-    )
-    BEGIN
-        EXEC('
-            CREATE TABLE fornadas_forno_removido (
-                codigo INT NOT NULL,
-                data_inicio DATE NOT NULL,
-                data_fim DATE,
-                quantidade_lenha FLOAT NOT NULL,
-                quantidade_carvao FLOAT,
-                codigo_lenha_forn INT NOT NULL,
-                num_serie_forno INT NOT NULL,
-                codigo_arm INT NOT NULL
-            )
-        ');
-    END;
-
-    -- Insere as fornadas na tabela de histÛrico
-    INSERT INTO fornadas_forno_removido
-    SELECT codigo, data_inicio, data_fim, quantidade_lenha, quantidade_carvao, codigo_lenha_forn, num_serie_forno, codigo_arm
-    FROM fornada
-    WHERE num_serie_forno IN (SELECT num_serie FROM deleted);
-
     -- Elimina as fornadas e o forno
     DELETE FROM fornada
     WHERE num_serie_forno IN (SELECT num_serie FROM deleted);
 
     DELETE FROM forno
     WHERE num_serie IN (SELECT num_serie FROM deleted);
+
 END;*/
